@@ -1,0 +1,89 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    "graphql/generated/*.ts"
+  ],
+  "globals": {
+    "defineEmits": "readonly",
+    "defineExpose": "readonly",
+    "definePageMeta": "readonly",
+    "defineProps": "readonly",
+    "useAPI": "readonly",
+    "useRecaptcha": "readonly",
+    "useRouter": "readonly",
+    "usePageProperties": "readonly",
+    "useURLParams": "readonly",
+    "useSession": "readonly",
+    "useState": "readonly",
+    "withDefaults": "readonly"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/vue3-recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 13,
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "vue",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "space-infix-ops": [
+      "error"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "vue/no-v-model-argument": 0,
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-expect-error": "allow-with-description"
+      }
+    ],
+    "comma-dangle": ["error", "always-multiline" ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "components/*/**/*.vue",
+        "pages/**/*.vue",
+        "layouts/**/*.vue"
+      ],
+      "rules": {
+        "vue/multi-word-component-names": 0
+      }
+    }
+  ]
+}

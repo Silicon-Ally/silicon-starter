@@ -1,0 +1,60 @@
+sh_binary(
+    name = "run_db",
+    srcs = ["run_db.sh"],
+    deps = [
+        "//scripts/shared:kv",
+        "//scripts/shared:migrate",
+    ],
+)
+
+sh_binary(
+    name = "db_shell",
+    srcs = ["db_shell.sh"],
+    deps = [
+        "//scripts/shared:kv",
+    ],
+)
+
+sh_binary(
+    name = "cloudsql_shell",
+    srcs = ["cloudsql_shell.sh"],
+    deps = [
+        "//scripts/shared:bastion",
+        "//scripts/shared:db_prompt",
+    ],
+)
+
+sh_binary(
+    name = "migrate_cloudsql",
+    srcs = ["migrate_cloudsql.sh"],
+    deps = [
+        "//scripts/shared:bastion",
+        "//scripts/shared:db_prompt",
+    ],
+)
+
+sh_binary(
+    name = "run_backend",
+    srcs = ["run_backend.sh"],
+    deps = [
+        "//scripts/shared:kv",
+    ],
+)
+
+sh_binary(
+    name = "rollback_db",
+    srcs = ["rollback_db.sh"],
+    deps = [
+        "//scripts/shared:kv",
+        "//scripts/shared:migrate",
+    ],
+)
+
+sh_binary(
+    name = "regen_db_goldens",
+    srcs = ["regen_db_goldens.sh"],
+    deps = [
+        "//scripts/shared:kv",
+        "//scripts/shared:migrate",
+    ],
+)

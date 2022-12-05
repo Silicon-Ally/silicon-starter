@@ -1,0 +1,13 @@
+overwrite: true
+schema: ../cmd/server/graph/schema.graphqls
+documents: "graphql/operations/*.graphql"
+config:
+  scalars:
+    Time: string 
+  strictScalars: true
+generates:
+  graphql/generated/index.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-graphql-request"

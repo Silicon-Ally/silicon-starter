@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "flagext",
+    srcs = ["flagext.go"],
+    importpath = "github.com/Silicon-Ally/silicon-starter/common/flagext",
+    visibility = ["//visibility:public"],
+)

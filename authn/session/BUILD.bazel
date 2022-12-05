@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "session",
+    srcs = ["session.go"],
+    importpath = "github.com/Silicon-Ally/silicon-starter/authn/session",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//authn",
+        "//db",
+        "//todo",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "session_test",
+    srcs = ["session_test.go"],
+    embed = [":session"],
+    deps = [
+        "//authn",
+        "//testing/testdb",
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_google_go_cmp//cmp/cmpopts",
+        "@org_uber_go_zap//zaptest",
+    ],
+)

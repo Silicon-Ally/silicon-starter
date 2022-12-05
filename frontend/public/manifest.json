@@ -1,0 +1,10 @@
+{
+  "name": "Silicon Starter",
+  "short_name": "Silicon Starter",
+  "start_url": "/sign-in",
+  "display": "standalone",
+  "description": "A template for a modern web-app",
+  "background_color": "#fff",
+  "theme_color": "#719949",
+  "orientation": "portrait-primary"
+}

@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "todo",
+    srcs = ["todo.go"],
+    importpath = "github.com/Silicon-Ally/silicon-starter/todo",
+    visibility = ["//visibility:public"],
+    deps = ["//authn"],
+)

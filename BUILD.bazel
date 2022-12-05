@@ -1,0 +1,31 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@io_bazel_rules_go//go:def.bzl", "TOOLS_NOGO", "nogo")
+
+# gazelle:prefix github.com/Silicon-Ally/silicon-starter
+# gazelle:resolve go github.com/Silicon-Ally/silicon-starter/cmd/server/generated //cmd/server:gql_generated
+# gazelle:resolve go github.com/Silicon-Ally/silicon-starter/cmd/server/model //cmd/server:gql_model
+# gazelle:exclude frontend/
+# gazelle:exclude .postgres-data
+gazelle(name = "gazelle")
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go.mod",
+        "-to_macro=deps.bzl%go_dependencies",
+        "-prune",
+    ],
+    command = "update-repos",
+)
+
+nogo(
+    name = "nogo",
+    config = ":nogo.json",
+    visibility = ["//visibility:public"],
+    deps = TOOLS_NOGO,
+)
+
+exports_files([
+    "go.mod",
+    "go.sum",
+])

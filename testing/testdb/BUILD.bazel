@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "testdb",
+    testonly = True,
+    srcs = ["testdb.go"],
+    importpath = "github.com/Silicon-Ally/silicon-starter/testing/testdb",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//authn",
+        "//db",
+        "//todo",
+    ],
+)

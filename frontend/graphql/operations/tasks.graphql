@@ -1,0 +1,42 @@
+fragment TaskFields on Task {
+  id
+  name
+  body
+  tags
+}
+
+query task($taskId: ID!){
+  task(taskId: $taskId){
+    ...TaskFields
+  }
+}
+
+query tasksByCreator($creatorUserId: ID!){
+  tasksByCreator(userId: $creatorUserId){
+    ...TaskFields
+  }
+}
+
+mutation createTask {
+  createTask 
+}
+
+mutation setTaskName($taskId: ID!, $newName: String!) {
+  setTaskName(taskId: $taskId, name: $newName)
+}
+
+mutation setTaskBody($taskId: ID!, $newBody: String!) {
+  setTaskBody(taskId: $taskId, body: $newBody)
+}
+
+mutation addTaskTag($taskId: ID!, $tag: String!) {
+  addTaskTag(taskId: $taskId, tag: $tag)
+}
+
+mutation removeTaskTag($taskId: ID!, $tag: String!) {
+  removeTaskTag(taskId: $taskId, tag: $tag)
+}
+
+mutation deleteTask($taskId: ID!) {
+  deleteTask(taskId: $taskId)
+}

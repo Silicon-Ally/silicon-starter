@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "graphconv",
+    srcs = ["graphconv.go"],
+    importpath = "github.com/Silicon-Ally/silicon-starter/cmd/server/graph/graphconv",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//cmd/server:gql_model",
+        "//todo",
+    ],
+)

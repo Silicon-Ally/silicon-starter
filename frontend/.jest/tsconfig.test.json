@@ -1,0 +1,15 @@
+{
+    "extends": "../tsconfig.json",
+    "include": [
+        "../.nuxt/nuxt.d.ts",
+        "../**/*",
+        "**.ts",
+        "jest-dom.ts"
+    ],
+    "compilerOptions": {
+        "types": [
+            "jest",
+            "testing-library__jest-dom"
+        ]
+    }
+}

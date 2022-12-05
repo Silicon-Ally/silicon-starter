@@ -1,0 +1,49 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "graph",
+    srcs = [
+        "graph.go",
+        "tasks.go",
+        "users.go",
+    ],
+    importpath = "github.com/Silicon-Ally/silicon-starter/cmd/server/graph",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//authn",
+        "//cmd/server:gql_generated",
+        "//cmd/server:gql_model",
+        "//cmd/server/graph/graphconv",
+        "//db",
+        "//todo",
+        "@com_github_silicon_ally_gqlerr//:gqlerr",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+exports_files(["schema.graphqls"])
+
+go_test(
+    name = "graph_test",
+    size = "large",
+    srcs = [
+        "graph_test.go",
+        "tasks_test.go",
+        "users_test.go",
+    ],
+    data = ["//db/sqldb/migrations"],
+    embed = [":graph"],
+    deps = [
+        "//authn",
+        "//cmd/server:gql_model",
+        "//db/sqldb",
+        "//testing/testdb",
+        "//todo",
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_google_go_cmp//cmp/cmpopts",
+        "@com_github_silicon_ally_testpgx//:testpgx",
+        "@com_github_silicon_ally_testpgx//migrate",
+        "@io_bazel_rules_go//go/tools/bazel:go_default_library",
+        "@org_uber_go_zap//zaptest",
+    ],
+)

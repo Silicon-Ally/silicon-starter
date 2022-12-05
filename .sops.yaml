@@ -1,0 +1,13 @@
+# Creation rules are evaluated sequentially, the first match wins
+creation_rules:
+  - path_regex: cmd/server/configs/secrets/local\.enc\.json$
+    gcp_kms: projects/<local project ID>/locations/global/keyRings/<app name>/cryptoKeys/sops,projects/<shared project ID>/locations/global/keyRings/sops/cryptoKeys/developers
+
+  - path_regex: cmd/server/configs/secrets/dev\.enc\.json$
+    gcp_kms: projects/<dev project ID>/locations/global/keyRings/<app name>/cryptoKeys/sops,projects/<shared project ID>/locations/global/keyRings/sops/cryptoKeys/developers
+
+  - path_regex: secrets/local\.enc\.json$
+    gcp_kms: projects/<shared project ID>/locations/global/keyRings/sops/cryptoKeys/developers
+
+  - path_regex: secrets/dev\.enc\.json$
+    gcp_kms: projects/<shared project ID>/locations/global/keyRings/sops/cryptoKeys/developers

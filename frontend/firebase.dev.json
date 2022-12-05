@@ -1,0 +1,25 @@
+{
+  "functions": {
+    "source": ".output/server"
+  },
+  "hosting": [
+    {
+      "site": "<dev project ID>",
+      "public": ".output/public",
+      "cleanUrls": true,
+      "rewrites": [
+        {
+          "source": "/api/**",
+          "run": {
+            "serviceId": "<app name>",
+            "region": "us-central1"
+          }
+        },
+        {
+          "source": "!/_nuxt/**",
+          "function": "server"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+scalar Time
+
+type User {
+  id: ID!
+  name: ID!
+}
+
+type Task {
+  id: ID!
+  name: String!
+  body: String!
+  tags: [String]! 
+}
+
+type Query {
+  me: User!
+
+  task(taskId: ID!): Task!
+  tasksByCreator(userId: ID!): [Task!]! 
+}
+
+type Mutation {
+  setUserName(name: String!): Boolean
+
+  createTask: ID! 
+  setTaskName(taskId: ID!, name: String!): Boolean
+  setTaskBody(taskId: ID!, body: String!): Boolean
+  addTaskTag(taskId: ID!, tag: String!): Boolean
+  removeTaskTag(taskId: ID!, tag: String!): Boolean
+  deleteTask(taskId: ID!): Boolean
+}

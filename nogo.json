@@ -1,0 +1,53 @@
+{
+  "buildtag": {
+    "exclude_files": {
+      "external/com_github_howeyc_gopass/.*": "disable on offending 3rd party code"
+    }
+  },
+  "shadow": {
+    "exclude_files": {
+      ".*": "disable the shadowing check on all code, because it's fine"
+    }
+  },
+  "composites": {
+    "exclude_files": {
+      "external/.*": "enforce no composite keys only on first-party code"
+    }
+  },
+  "nilness": {
+    "exclude_files": {
+      "external/.*": "enforce no nilness only on first-party code",
+      "bin/cmd/server/generated/.*": "ignore nilness on generated code"
+    }
+  },
+  "unreachable": {
+    "exclude_files": {
+      "external/.*": "enforce no unreachable paths only on first-party code"
+    }
+  },
+  "copylocks": {
+    "exclude_files": {
+      "external/org_golang_google_protobuf/internal/impl/.*": "disable copylocks check on offending third-party code",
+      "external/org_mozilla_go_sops_v3/keyservice/.*": "disable copylocks check on offending third-party code",
+      "external/com_google_cloud_go_firestore/.*": "disable copylocks check on offending third-party code",
+      "external/com_github_armon_go_metrics/.*": "disable copylocks check on offending third-party code",
+      "external/com_github_hashicorp_vault_api/.*": "disable copylocks check on offending third-party code",
+      "external/bazel_gazelle/walk/.*": "disable copylocks check on offending third-party code"
+    }
+  },
+  "unsafeptr": {
+    "exclude_files": {
+      "external/org_golang_x_sys/unix/.*": "disable unsafe pointer check on offending third-party code"
+    }
+  },
+  "lostcancel": {
+    "exclude_files": {
+      "external/com_github_hashicorp_vault_api/.*": "disable lost context cancel check on offending third-party code"
+    }
+  },
+  "structtag": {
+    "exclude_files": {
+      "external/com_github_hashicorp_vault_api/.*": "disable struct tag check on offending third-party code"
+    }
+  }
+}

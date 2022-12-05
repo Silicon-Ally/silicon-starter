@@ -1,0 +1,14 @@
+fragment UserFields on User {
+  id
+  name 
+}
+
+query me {
+  me {
+    ...UserFields
+  }
+}
+
+mutation setUserName($newName: String!) {
+  setUserName(name: $newName)
+}

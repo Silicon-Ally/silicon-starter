@@ -1,0 +1,85 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@com_siliconally_rules_gqlgen//gqlgen:def.bzl", "gqlgen")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
+
+go_library(
+    name = "server_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/Silicon-Ally/silicon-starter/cmd/server",
+    visibility = ["//visibility:private"],
+    deps = [
+        ":gql_generated",
+        "//authn/fireauth",
+        "//authn/session",
+        "//cmd/server/graph",
+        "//common/flagext",
+        "//db/sqldb",
+        "@com_github_99designs_gqlgen//graphql/handler",
+        "@com_github_99designs_gqlgen//graphql/playground",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_github_namsral_flag//:flag",
+        "@com_github_rs_cors//:cors",
+        "@com_github_silicon_ally_gqlerr//:gqlerr",
+        "@com_google_cloud_go_compute_metadata//:metadata",
+        "@com_google_firebase_go_v4//:go",
+        "@org_golang_google_api//option",
+        "@org_uber_go_zap//:zap",
+        "@org_uber_go_zap//zapcore",
+    ],
+)
+
+go_binary(
+    name = "server",
+    embed = [":server_lib"],
+    visibility = ["//visibility:public"],
+)
+
+# The below rule generated two library targets, :gql_generated and :gql_model,
+# which correspond to the auto-generated GraphQL glue code and model schema
+# types respectively.
+gqlgen(
+    name = "gql",
+    base_importpath = "github.com/Silicon-Ally/silicon-starter/cmd/server",
+    gomod = "//:go.mod",
+    gosum = "//:go.sum",
+    schemas = ["//cmd/server/graph:schema.graphqls"],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "configs",
+    srcs = glob(["configs/**"]),
+    visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "configs_tar",
+    srcs = [":configs"],
+    package_dir = "/configs",
+    strip_prefix = "/cmd/server/configs",
+)
+
+container_image(
+    name = "base_image",
+    base = "@go_image_base//image",
+    tars = [
+        ":configs_tar",
+    ],
+)
+
+go_image(
+    name = "server_image",
+    base = ":base_image",
+    binary = ":server",
+    visibility = ["//visibility:public"],
+)
+
+container_push(
+    name = "server_push",
+    format = "Docker",
+    image = ":server_image",
+    registry = "us-central1-docker.pkg.dev/<shared project ID>/<app name>",
+    repository = "server",
+)

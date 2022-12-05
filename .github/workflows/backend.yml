@@ -1,0 +1,65 @@
+name: Backend CI
+
+on: push
+
+env:
+  DOCKER_IMAGE_CACHE_PATH: .cache/docker-images
+  PGX_TEST_DOCKER_IMAGE: postgres:14.6
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir -p "${HOME}/${DOCKER_IMAGE_CACHE_PATH}"
+
+      - id: docker-image-cache
+        name: Cache Docker images
+        uses: actions/cache@v2
+        env:
+          cache-name: docker-image-cache
+        with:
+            path: ~/${{ env.DOCKER_IMAGE_CACHE_PATH }}
+            # If we add more Docker images to the cache, we'll likely want this
+            # name to become a hash of all of them.
+            key: ${{ env.PGX_TEST_DOCKER_IMAGE }}
+
+      - if: steps.docker-image-cache.outputs.cache-hit != 'true'
+        run: |
+            docker pull "${PGX_TEST_DOCKER_IMAGE}"
+            docker save -o "${HOME}/${DOCKER_IMAGE_CACHE_PATH}/${PGX_TEST_DOCKER_IMAGE}.tar" "${PGX_TEST_DOCKER_IMAGE}"
+
+      - if: steps.docker-image-cache.outputs.cache-hit == 'true'
+        run: docker load -i "${HOME}/${DOCKER_IMAGE_CACHE_PATH}/${PGX_TEST_DOCKER_IMAGE}.tar"
+
+      # Caches and restores the bazelisk download directory and the bazel build
+      # directory.
+      - name: Cache bazel
+        uses: actions/cache@v2
+        env:
+          cache-name: bazel-cache
+        with:
+          path: |
+            ~/.cache/bazelisk
+            ~/.cache/bazel
+          key: ${{ runner.os }}-${{ env.cache-name }}
+
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Checkout LFS objects
+        run: git lfs checkout
+
+      - name: Install Bazelisk
+        run: |
+          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+
+      - name: Run all builds
+        run: |
+          bazel build //...
+
+      - name: Run all tests
+        run: bazel test //...
