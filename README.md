@@ -94,3 +94,8 @@ try to take a look shortly.
 Please report security issues to security@siliconally.org, or by using one of
 the contact methods available on our
 [Contact Us page](https://siliconally.org/contact/).
+
+## Contributing
+
+Contribution guidelines can be found [on our website](https://siliconally.org/oss/contributor-guidelines).
+
