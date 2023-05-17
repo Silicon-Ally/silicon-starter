@@ -29,6 +29,10 @@ export default defineNuxtRouteMiddleware(async (to: HasPath) => {
     }
 
     const decodedJWT = await $sauth.verifySessionCookie(sessionCookie.value, false /* checkRevoked */)
+      .catch((err) => {
+        console.log('failed to validate firebase session cookie', err)
+        return null
+      })
     if (!decodedJWT) {
       return maybeRedirectToSignIn()
     }
