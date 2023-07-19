@@ -132,7 +132,7 @@ func TestRegeneratedHumanReadableSchema(t *testing.T) {
 	}
 	ctx := context.Background()
 	db := sqlEnv.GetMigratedDB(ctx, t)
-	got, err := sqlEnv.DumpDatabaseSchema(ctx, db.Config().Config.Database, testpgx.WithHumanReadableSchema())
+	got, err := sqlEnv.DumpDatabaseSchema(ctx, db.Config().ConnConfig.Database, testpgx.WithHumanReadableSchema())
 	if err != nil {
 		t.Fatalf("failed to dump database schema: %v", err)
 	}
@@ -156,7 +156,7 @@ func TestRegeneratedDatabaseSchemaDump(t *testing.T) {
 	}
 	ctx := context.Background()
 	db := sqlEnv.GetMigratedDB(ctx, t)
-	got, err := sqlEnv.DumpDatabaseSchema(ctx, db.Config().Config.Database)
+	got, err := sqlEnv.DumpDatabaseSchema(ctx, db.Config().ConnConfig.Database)
 	if err != nil {
 		t.Fatalf("failed to dump database schema: %v", err)
 	}

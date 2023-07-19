@@ -9,7 +9,7 @@ import (
 	"github.com/Silicon-Ally/testpgx"
 	"github.com/Silicon-Ally/testpgx/migrate"
 	"github.com/bazelbuild/rules_go/go/tools/bazel"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func main() {
@@ -34,8 +34,8 @@ func main() {
 		}
 	}()
 
-	env.WithMigratedDB(ctx, func(db *pgx.Conn) error {
-		result, err := env.DumpDatabaseSchema(ctx, db.Config().Config.Database)
+	env.WithMigratedDB(ctx, func(db *pgxpool.Pool) error {
+		result, err := env.DumpDatabaseSchema(ctx, db.Config().ConnConfig.Database)
 		if err != nil {
 			log.Fatalf("while dumping database schema: %v", err)
 		}
